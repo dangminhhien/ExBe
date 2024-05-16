@@ -8,9 +8,6 @@ function route(app){
     app.use('/home', siteRouter);
     app.use('/back', siteRouter);
     app.use('/', siteRouter);
-
-
-    
 }
 
 module.exports = route;

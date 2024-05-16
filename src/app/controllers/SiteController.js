@@ -9,6 +9,9 @@ class  SiteController{
     back (req, res){
         res.render('back');
     }
+    edit (req, res){
+        res.render('edit');
+    }
     
 
 }

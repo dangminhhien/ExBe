@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Todo List</h1>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+<script>
+  // Array to store tasks
+let tasks = [];
+
+// Function to add a task
+function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskText = taskInput.value.trim();
+    
+    if (taskText !== "") {
+        let task = { text: taskText, completed: false };
+        tasks.push(task);
+        renderTasks();
+        taskInput.value = "";
+    } else {
+        alert("Please enter a task!");
+    }
+}
+
+// Function to toggle task completion
+function toggleTask(index) {
+    tasks[index].completed = !tasks[index].completed;
+    renderTasks();
+}
+
+// Function to delete a task
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    renderTasks();
+}
+
+// Function to render tasks
+function renderTasks() {
+    let taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+        let li = document.createElement("li");
+        li.textContent = task.text;
+        li.className = task.completed ? "completed" : "";
+        
+        let toggleButton = document.createElement("button");
+        toggleButton.textContent = task.completed ? "Undo" : "Done";
+        toggleButton.onclick = () => toggleTask(index);
+        
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = () => deleteTask(index);
+
+        li.appendChild(toggleButton);
+        li.appendChild(deleteButton);
+        taskList.appendChild(li);
+    });
+}
+
+// Initial rendering of tasks
+renderTasks();
+
+</script>
+</html>
