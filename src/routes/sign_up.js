@@ -1,9 +1,10 @@
-const express = require ('express');
-const routes = express.Router();
 
-const sign_upController = require('../app/controllers/Sign_upController');
+const express = require('express');
+const router = express.Router();
+const SignUpController = require('../app/controllers/SignUpController');
+const authenticateToken = require('../middleware/auth');
 
-routes.use('/', sign_upController.index);
+router.get('/', SignUpController.showSignUpPage);
+router.post('/signup', authenticateToken, SignUpController.signUp);
 
-
-module.exports = routes;
+module.exports = router;

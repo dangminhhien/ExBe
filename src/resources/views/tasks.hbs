@@ -1,11 +1,10 @@
-<!-- tasks.hbs -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="container">
@@ -29,7 +28,7 @@
     // Function to toggle task completion
     function toggleTask(id) {
         fetch(`/tasks/toggle/${id}`, {
-            method: 'PUT'
+            method: 'POST'
         })
         .then(response => {
             if (response.ok) {
@@ -44,7 +43,7 @@
     // Function to delete a task
     function deleteTask(id) {
         fetch(`/tasks/delete/${id}`, {
-            method: 'DELETE'
+            method: 'POST' 
         })
         .then(response => {
             if (response.ok) {
