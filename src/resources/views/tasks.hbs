@@ -22,10 +22,15 @@
             </li>
             {{/each}}
         </ul>
+        <hr />
+        <div class="counter-container">
+            <div id="task-counters">
+                Completed: <span id="completed-counter">0</span> | Uncompleted: <span id="uncompleted-counter">0</span>
+            </div>
+        </div>
     </div>
 </body>
 <script>
-    // Function to toggle task completion
     function toggleTask(id) {
         fetch(`/tasks/toggle/${id}`, {
             method: 'POST'
@@ -54,5 +59,43 @@
         })
         .catch(error => console.error(error));
     }
+    const completedCounter = document.getElementById("completed-counter");
+    const uncompletedCounter = document.getElementById("uncompleted-counter");
+
+    function updateCounters() {
+        const completedTasks = document.querySelectorAll(".completed").length;
+        const uncompletedTasks = document.querySelectorAll("li:not(.completed)").length;
+
+        completedCounter.textContent = completedTasks;
+        uncompletedCounter.textContent = uncompletedTasks;
+    }
+
+    // Gọi hàm updateCounters() khi trang được tải
+    document.addEventListener("DOMContentLoaded", updateCounters);
+
+    // Sự kiện cho checkbox
+    document.querySelectorAll(".task-checkbox").forEach(checkbox => {
+        checkbox.addEventListener("click", function () {
+            const li = this.closest("li");
+            li.classList.toggle("completed", this.checked);
+            updateCounters();
+        });
+    });
+
+    // Sự kiện cho nút chỉnh sửa
+    document.querySelectorAll(".edit-btn").forEach(editBtn => {
+        editBtn.addEventListener("click", function () {
+            const taskSpan = this.closest("li").querySelector(".task-text");
+            const update = prompt("Edit task:", taskSpan.textContent);
+            if (update !== null) {
+                taskSpan.textContent = update;
+                const li = this.closest("li");
+                li.classList.remove("completed");
+                const checkbox = li.querySelector(".task-checkbox");
+                checkbox.checked = false;
+                updateCounters();
+            }
+        });
+    });
 </script>
 </html>
