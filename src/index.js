@@ -50,7 +50,6 @@ app.post('/sign_up', async (req, res) => {
     
         const checking = await collection.findOne({name: req.body.name});
         if(checking){
-            // res.send('user already exists ')
             res.render('back');
             
         } else{

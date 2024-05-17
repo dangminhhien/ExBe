@@ -1,0 +1,59 @@
+<!-- tasks.hbs -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Todo List</h1>
+        <form action="/tasks/create" method="post">
+            <input type="text" name="text" placeholder="Add a new task">
+            <button type="submit">Add</button>
+        </form>
+        <ul id="taskList">
+            {{#each tasks}}
+            <li class="{{#if completed}}completed{{/if}}">
+                {{text}}
+                <button onclick="toggleTask('{{_id}}')">{{#if completed}}Undo{{else}}Done{{/if}}</button>
+                <button onclick="deleteTask('{{_id}}')">Delete</button>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</body>
+<script>
+    // Function to toggle task completion
+    function toggleTask(id) {
+        fetch(`/tasks/toggle/${id}`, {
+            method: 'PUT'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error toggling task');
+            }
+        })
+        .catch(error => console.error(error));
+    }
+
+    // Function to delete a task
+    function deleteTask(id) {
+        fetch(`/tasks/delete/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error deleting task');
+            }
+        })
+        .catch(error => console.error(error));
+    }
+</script>
+</html>

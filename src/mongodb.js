@@ -19,7 +19,8 @@ const LoginSchema = new mongoose.Schema({
     }
 });
 
-const collection = new mongoose.model('collection', LoginSchema);
 
+const collection = new mongoose.model('collection', LoginSchema);
 module.exports = collection; // Export the model instead of the schema
+
 

@@ -7,4 +7,3 @@ routes.use('/', sign_upController.index);
 
 
 module.exports = routes;
-

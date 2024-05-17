@@ -7,4 +7,3 @@ routes.use('/', siteController.index);
 
 
 module.exports = routes;
-
