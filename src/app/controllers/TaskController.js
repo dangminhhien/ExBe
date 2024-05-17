@@ -4,7 +4,8 @@ const Task = require('../models/taskModel');
 const taskController = {
     index: async (req, res) => {
         try {
-            const tasks = await Task.find({});
+            let tasks = await Task.find({});
+            tasks = tasks.map(task => task.toObject());
             res.render('tasks', { tasks });
         } catch (err) {
             res.status(400).json({ error: 'Error!!!' });
