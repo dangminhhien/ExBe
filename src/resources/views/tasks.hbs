@@ -45,7 +45,6 @@
         .catch(error => console.error(error));
     }
 
-    // Function to delete a task
     function deleteTask(id) {
         fetch(`/tasks/delete/${id}`, {
             method: 'POST' 
@@ -70,10 +69,8 @@
         uncompletedCounter.textContent = uncompletedTasks;
     }
 
-    // Gọi hàm updateCounters() khi trang được tải
     document.addEventListener("DOMContentLoaded", updateCounters);
 
-    // Sự kiện cho checkbox
     document.querySelectorAll(".task-checkbox").forEach(checkbox => {
         checkbox.addEventListener("click", function () {
             const li = this.closest("li");
@@ -82,7 +79,6 @@
         });
     });
 
-    // Sự kiện cho nút chỉnh sửa
     document.querySelectorAll(".edit-btn").forEach(editBtn => {
         editBtn.addEventListener("click", function () {
             const taskSpan = this.closest("li").querySelector(".task-text");

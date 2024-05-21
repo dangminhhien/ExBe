@@ -16,4 +16,11 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-module.exports = authenticateToken;
+const authorizeAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).send('Access denied');
+    }
+    next();
+};
+
+module.exports = { authenticateToken, authorizeAdmin };

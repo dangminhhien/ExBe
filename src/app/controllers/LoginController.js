@@ -1,4 +1,3 @@
-
 const Login = require('../models/loginModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -6,7 +5,7 @@ const secretKey = 'your-secret-key';
 
 class LoginController {
     showLoginPage(req, res) {
-        res.render('login'); 
+        res.render('login');
     }
 
     async login(req, res) {
@@ -16,9 +15,14 @@ class LoginController {
             if (user) {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
-                    const token = jwt.sign({ name: user.name, id: user._id }, secretKey, { expiresIn: '1h' });
+                    const token = jwt.sign({ name: user.name, id: user._id, role: user.role }, secretKey, { expiresIn: '1h' });
                     res.cookie('token', token, { httpOnly: true });
-                    res.redirect('/tasks');
+
+                    if (user.role === 'admin') {
+                        res.redirect('/tasks');
+                    } else {
+                        res.redirect('/edit');
+                    }
                 } else {
                     res.render('login', { message: 'Incorrect password' });
                 }

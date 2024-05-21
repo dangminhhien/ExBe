@@ -4,74 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <div class="container">
         <h1 class="title">Todo List</h1>
-        <input type="text" id="taskInput" placeholder="Add a new task">
-        <button onclick="addTask()">Add</button>
-        <ul id="taskList"></ul>
+        <ul id="taskList">
+            {{#each tasks}}
+            <li class="{{#if completed}}completed{{/if}}">
+                {{text}}
+                <button onclick="toggleTask('{{_id}}')">{{#if completed}}Undo{{else}}Done{{/if}}</button>
+            </li>
+            {{/each}}
+        </ul>
+        <hr />
+        <div class="counter-container">
+            <div id="task-counters">
+                Completed: <span id="completed-counter">0</span> | Uncompleted: <span id="uncompleted-counter">0</span>
+            </div>
+        </div>
     </div>
-    
 </body>
 <script>
-  // Array to store tasks
-let tasks = [];
-
-// Function to add a task
-function addTask() {
-    let taskInput = document.getElementById("taskInput");
-    let taskText = taskInput.value.trim();
-    
-    if (taskText !== "") {
-        let task = { text: taskText, completed: false };
-        tasks.push(task);
-        renderTasks();
-        taskInput.value = "";
-    } else {
-        alert("Please enter a task!");
+    function toggleTask(id) {
+        fetch(`/edit/toggle/${id}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error toggling task');
+            }
+        })
+        .catch(error => console.error(error));
     }
-}
 
-// Function to toggle task completion
-function toggleTask(index) {
-    tasks[index].completed = !tasks[index].completed;
-    renderTasks();
-}
+    const completedCounter = document.getElementById("completed-counter");
+    const uncompletedCounter = document.getElementById("uncompleted-counter");
 
-// Function to delete a task
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    renderTasks();
-}
+    function updateCounters() {
+        const completedTasks = document.querySelectorAll(".completed").length;
+        const uncompletedTasks = document.querySelectorAll("li:not(.completed)").length;
 
-// Function to render tasks
-function renderTasks() {
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
+        completedCounter.textContent = completedTasks;
+        uncompletedCounter.textContent = uncompletedTasks;
+    }
 
-    tasks.forEach((task, index) => {
-        let li = document.createElement("li");
-        li.textContent = task.text;
-        li.className = task.completed ? "completed" : "";
-        
-        let toggleButton = document.createElement("button");
-        toggleButton.textContent = task.completed ? "Undo" : "Done";
-        toggleButton.onclick = () => toggleTask(index);
-        
-        let deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.onclick = () => deleteTask(index);
+    document.addEventListener("DOMContentLoaded", updateCounters);
 
-        li.appendChild(toggleButton);
-        li.appendChild(deleteButton);
-        taskList.appendChild(li);
+    document.querySelectorAll(".task-checkbox").forEach(checkbox => {
+        checkbox.addEventListener("click", function () {
+            const li = this.closest("li");
+            li.classList.toggle("completed", this.checked);
+            updateCounters();
+        });
     });
-}
-
-// Initial rendering of tasks
-renderTasks();
-
 </script>
 </html>
