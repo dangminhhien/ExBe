@@ -22,9 +22,9 @@ mongoose.connect('mongodb://localhost:27017/LoginSignUpTutorial', {
     console.log('Connection failed:', error);
 });
 
-app.use(express.json());
+app.use(express.json());    
 app.use(morgan('combined'));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser()); 
@@ -40,8 +40,9 @@ app.set('views', path.join(__dirname, 'resources/views'));
 
 app.use(express.urlencoded({ extended: false }));
 
+
 route(app);
 
-app.listen(port, () => {
+app.listen(port, () => {    
     console.log(`Example app listening on port ${port}`);
 });
