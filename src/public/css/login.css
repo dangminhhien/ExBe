@@ -20,14 +20,14 @@ input{
     margin: 10px 0 10px 0;
 }
 .sub{
-    background-color:rgb(21, 122, 117);
+    background-color:rgb(51, 173, 167);
     cursor: pointer;
 }
 
 form{
 
     text-align: center;
-    border: 5px solid rgb(119, 20, 98);
+    border: 5px solid rgb(225, 243, 240);
     padding: 20px;
-    background-color: rgb(29, 71, 77);
+    background-color: rgb(133, 197, 207);
 }

@@ -9,6 +9,10 @@ class SignUpController {
     async signUp(req, res) {
         const { name, password, role } = req.body;
         try {
+            const existingUser = await Login.findOne({ name });
+            if (existingUser) {
+                return res.render('sign_up', { message: 'User with this name already exists' });
+            }
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = new Login({ name, password: hashedPassword, role });
             await newUser.save();

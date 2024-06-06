@@ -1,31 +1,26 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const route = require('./routes');
+const connectdb = require('./db/connectdb');
+const { authenticateToken } = require('./middleware/auth');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+
 
 const app = express();
 const port = 3000;
 
-mongoose.connect('mongodb://localhost:27017/LoginSignUpTutorial', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => {
-    console.log('Connected to database');
-})
-.catch((error) => {
-    console.log('Connection failed:', error);
-});
-
+connectdb()
+app.use(cookieParser());
 app.use(express.json());    
 app.use(morgan('combined'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
 app.use(cookieParser()); 
 app.use(session({
@@ -40,6 +35,15 @@ app.set('views', path.join(__dirname, 'resources/views'));
 
 app.use(express.urlencoded({ extended: false }));
 
+app.use(flash());
+
+// Set global variables for templates
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  next();
+});
 
 route(app);
 

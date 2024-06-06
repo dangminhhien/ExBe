@@ -1,4 +1,5 @@
 
+const { logout } = require('../../middleware/auth');
 const Task = require('../models/taskModel');
 
 const taskController = {
@@ -44,8 +45,16 @@ const taskController = {
         } catch (err) {
             res.status(400).json({ error: 'Error deleting task!!!' });
         }
-    }
+    },
+    logout: async (req, res) => {
+        try {
+            res.clearCookie('token');
+            res.redirect('/login');
+        } catch (error) {
+            console.error('Error logging out:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    },
 };
 
 module.exports = taskController;
-

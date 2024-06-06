@@ -1,25 +1,32 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="css/sign_up.css">
-</head>
-<body>
-    
-<h1>Sign Up</h1>
+    <link rel="stylesheet" href="css/sign_up.css" />
+  </head>
+  <body>
 
-    <form action="/sign_up" method="post" >
-        <input placeholder="Name" name="name" type="text">
-        <br>
-        <input placeholder="Password" name="password" type="password">
-        <br>
-        <input class="sub" type="submit">
+    <h1>Sign Up</h1>
+
+    <form action="/sign_up" method="post">
+      <input placeholder="Name" name="name" type="text" />
+      <br />
+      <input placeholder="Password" name="password" type="password" />
+      <br />
+        <div class="role-conainter">
+        <input type="radio" id="role" name="role" value="admin" />
+        <label for="role">Admin</label><br />
+        <input type="radio" id="role" name="role" value="user" />
+        <label for="role">User</label><br />
+      </div>
+      <br />
+      <input class="sub" type="submit" />
+      <p class="error">{{ message }}</p>
     </form>
 
-       <a href="/">Go back to login page</a>
+    <a href="/">Go back to login page</a>
 
-</body>
+  </body>
 </html>

@@ -8,9 +8,13 @@ class LoginController {
         res.render('login');
     }
 
-    async login(req, res) {
+    async login(req, res) { 
         const { name, password } = req.body;
-        try {
+        if(!name || !password){
+            return res.render('login', {message: 'please enter your name and password'});   
+        }
+
+       try {
             const user = await Login.findOne({ name });
             if (user) {
                 const match = await bcrypt.compare(password, user.password);
@@ -33,11 +37,7 @@ class LoginController {
             res.render('back', { message: 'Error occurred during login' });
         }
     }
-
-    logout(req, res) {
-        res.clearCookie('token');
-        res.redirect('/login');
-    }
 }
+
 
 module.exports = new LoginController();

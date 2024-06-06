@@ -6,4 +6,5 @@ const siteController = require('../app/controllers/SiteController');
 routes.use('/', siteController.index);
 
 
-module.exports = routes;
+
+module.exports = routes;    

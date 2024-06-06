@@ -20,7 +20,7 @@ input{
     margin: 10px 0 10px 0;
 }
 .sub{
-    background-color:rgb(223, 155, 52);
+    background-color:rgb(170, 199, 236);
     cursor: pointer;
 }
 
@@ -29,5 +29,10 @@ form{
     text-align: center;
     border: 5px solid rgb(111, 70, 23);
     padding: 20px;
-    background-color: rgb(239, 192, 135);
+    background-color: rgb(226, 234, 241);
+}
+
+.role-conainter {
+    display: flex;
+    align-items: center;
 }

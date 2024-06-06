@@ -12,8 +12,10 @@ class  SiteController{
     edit (req, res){
         res.render('edit');
     }
+    tasks (req, res){
+        res.render('tasks');
+    }
     
-
 }
 
 module.exports = new SiteController();
