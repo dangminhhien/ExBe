@@ -1,7 +1,7 @@
 const Task = require('../models/taskModel');
 
 
-class EditController {
+class editController {
     async index(req, res) {
        try {
            let tasks = await Task.find({}).exec();
@@ -25,6 +25,16 @@ class EditController {
             res.status(400).send('An error occurred while toggling the task.');
         }
     }
+    async logout(req, res) {
+        try {
+            res.clearCookie('token');
+            req.flash('success_msg', 'You are logged out');
+            res.redirect('/login');
+        } catch (err) {
+            console.error('Error logging out:', err);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
 }
 
-module.exports = new EditController();
+module.exports = new editController();
