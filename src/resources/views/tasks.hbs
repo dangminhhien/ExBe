@@ -28,9 +28,12 @@
         <ul id="taskList">
             {{#each tasks}}
             <li class="{{#if completed}}completed{{/if}}">
-                {{text}}
+                <span class="task-text">{{text}}</span>
+                <input type="text" class="update-input" style="display:none;" value="{{text}}">
                 <button onclick="toggleTask('{{_id}}')">{{#if completed}}Undo{{else}}Done{{/if}}</button>
                 <button onclick="deleteTask('{{_id}}')">Delete</button>
+                <button onclick="showUpdateInput('{{_id}}')">Update</button>
+                <button onclick="saveUpdate('{{_id}}')" style="display:none;">Save</button>
             </li>
             {{/each}}
         </ul>
@@ -64,6 +67,35 @@
         })
         .catch(error => console.error(error));
     }
+     function showUpdateInput(id) {
+        const listItem = document.querySelector(`li button[onclick="showUpdateInput('${id}')"]`).parentElement;
+        listItem.querySelector('.task-text').style.display = 'none';
+        listItem.querySelector('.update-input').style.display = 'inline';
+        listItem.querySelector(`button[onclick="showUpdateInput('${id}')"]`).style.display = 'none';
+        listItem.querySelector(`button[onclick="saveUpdate('${id}')"]`).style.display = 'inline';
+    }
+
+    function saveUpdate(id) {
+        const listItem = document.querySelector(`li button[onclick="saveUpdate('${id}')"]`).parentElement;
+        const newText = listItem.querySelector('.update-input').value;
+
+        fetch(`/tasks/update/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: newText })
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                console.error('Error updating task');
+            }
+        })
+        .catch(error => console.error(error));
+    }
+
     const completedCounter = document.getElementById("completed-counter");
     const uncompletedCounter = document.getElementById("uncompleted-counter");
 

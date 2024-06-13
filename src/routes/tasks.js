@@ -7,6 +7,7 @@ router.get('/', authenticateToken, authorizeAdmin, taskController.index);
 router.post('/create', authenticateToken, authorizeAdmin, taskController.create);
 router.post('/toggle/:id', authenticateToken, authorizeAdmin, taskController.toggle);
 router.post('/delete/:id', authenticateToken, authorizeAdmin, taskController.delete);
+router.post('/update/:id', authenticateToken, authorizeAdmin, taskController.update);
 router.post('/logout', taskController.logout);
 
 
